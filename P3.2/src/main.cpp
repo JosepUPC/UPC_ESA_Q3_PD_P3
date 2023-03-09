@@ -11,18 +11,18 @@ void interruptHandler();
 
 void setup() {
   Serial.begin(115200);
-  pinMode(18, INPUT_PULLUP);
+  pinMode(2, INPUT);
   xTaskCreate(TaskLed,  "Led", 10000, NULL, 0, NULL );
   xTaskCreate(TaskBlink,  "LedBlink", 10000, NULL, 0, NULL );
   interruptSemaphore = xSemaphoreCreateBinary();
   if (interruptSemaphore != NULL) {
-    attachInterrupt(digitalPinToInterrupt(18), debounceInterrupt, LOW);
+    attachInterrupt(digitalPinToInterrupt(2), debounceInterrupt, LOW);
   }
 }
 
 void loop()
 {
-  delay(500);
+  delay(1000);
 }
 
 void debounceInterrupt() {
@@ -39,21 +39,21 @@ void interruptHandler() {
 void TaskLed(void *pvParameters)
 {
   (void) pvParameters;
-  pinMode(34, OUTPUT);
+  pinMode(25, OUTPUT);
   while(1) {
     if (xSemaphoreTake(interruptSemaphore, portMAX_DELAY) == pdPASS) {
-      digitalWrite(22, !digitalRead(34));
+      digitalWrite(25, !digitalRead(25));
     }  
   }
 }
 void TaskBlink(void *pvParameters)
 {
   (void) pvParameters;
-  pinMode(35, OUTPUT);
+  pinMode(13, OUTPUT);
   while(1) {
-  digitalWrite(35, HIGH);
+  digitalWrite(13, HIGH);
   vTaskDelay(200 / portTICK_PERIOD_MS);
-  digitalWrite(18, LOW);
+  digitalWrite(13, LOW);
   vTaskDelay(200 / portTICK_PERIOD_MS);
   }
 }
