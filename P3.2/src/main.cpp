@@ -5,15 +5,18 @@ long debouncing_time = 150;
 volatile unsigned long last_micros;
 
 void TaskLed(void *pvParameters);
+void TaskBlink(void *pvParameters);
 void debounceInterrupt();
+void interruptHandler();
 
 void setup() {
-  pinMode(2, INPUT_PULLUP);
-  xTaskCreate(TaskLed,  "Led", 128, NULL, 0, NULL );
-  xTaskCreate(TaskBlink,  "LedBlink", 128, NULL, 0, NULL );
+  Serial.begin(115200);
+  pinMode(21, INPUT_PULLUP);
+  xTaskCreate(TaskLed,  "Led", 10000, NULL, 0, NULL );
+  xTaskCreate(TaskBlink,  "LedBlink", 10000, NULL, 0, NULL );
   interruptSemaphore = xSemaphoreCreateBinary();
   if (interruptSemaphore != NULL) {
-    attachInterrupt(digitalPinToInterrupt(2), debounceInterrupt, LOW);
+    attachInterrupt(digitalPinToInterrupt(21), debounceInterrupt, LOW);
   }
 }
 
