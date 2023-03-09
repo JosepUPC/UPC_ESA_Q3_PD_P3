@@ -1,10 +1,11 @@
 #include <Arduino.h>
 
 void anotherTask( void * parameter );
+volatile int sum=0;
 void setup()
 {
     Serial.begin(112500);
-
+    
     /* we create a new task here */
     xTaskCreate
     (
@@ -20,8 +21,9 @@ void setup()
 /* the forever loop() function is invoked by Arduino ESP32 loopTask */
 void loop()
 {
-  Serial.println("this is ESP32 Task");
+  Serial.printf("%d. this is the frist task  \n", sum);
   delay(1000);
+  sum++;
 }
  
 /* this function will be invoked when additionalTask was created */
@@ -31,8 +33,9 @@ void anotherTask( void * parameter )
   /* loop forever */
   for(;;)
   {
-    Serial.println("this is another Task");
+    Serial.printf("%d. this is another Task  \n", sum);
     delay(1000);
+    sum++;
   }
 
   /* delete a task when finish,
