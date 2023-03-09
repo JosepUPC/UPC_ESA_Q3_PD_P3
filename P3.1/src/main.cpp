@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+void anotherTask( void * parameter );
 void setup()
 {
     Serial.begin(112500);
