@@ -33,8 +33,9 @@ void anotherTask( void * parameter )
   /* loop forever */
   for(;;)
   {
+    delay(500);
     Serial.printf("%d. this is another Task  \n", sum);
-    delay(1000);
+    delay(500);
     sum++;
   }
 
