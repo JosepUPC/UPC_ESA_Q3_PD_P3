@@ -4,37 +4,36 @@ void setup()
 {
     Serial.begin(112500);
 
-    /* we create a new task here */
+    /* Delarem una tasca. Els parametres que  entrarem serà el nom, el tamañ de la memoria que ocupara per al core, nivell de prioritat respecte a altres tasques i una variable per
+    controlar-ho. */
     xTaskCreate
     (
-      anotherTask, /* Task function. */
-      "another Task", /* name of task. */
-      10000, /* Stack size of task */
-      NULL, /* parameter of the task */
-      1, /* priority of the task */
-      NULL /* Task handle to keep track of created task */
+      anotherTask,
+      "another Task",
+      10000, 
+      NULL, 
+      1, /
+      NULL 
       ); 
 }
  
-/* the forever loop() function is invoked by Arduino ESP32 loopTask */
+/* La funció void loop es la tasca per default de la placa Esp32 per a un format de treball Arduino, que ve controlat per el core numero '0' */
 void loop()
 {
-  Serial.println("this is ESP32 Task");
-  delay(1000);
+  Serial.println("this is ESP32 Task"); /* Mostrem per pantalla un missatge */
+  delay(1000);  /* esperem 1s per a reiniciar el loop */
 }
  
-/* this function will be invoked when additionalTask was created */
+/* funció que cridaras per activar la tasca. Es pot manipular amb parametres d'entrada */
 void anotherTask( void * parameter )
 {
   
-  /* loop forever */
+  /* escribim 'for(;;)' per tal de generar un loop dintre la funció */
   for(;;)
   {
-    Serial.println("this is another Task");
-    delay(1000);
+    Serial.println("this is another Task");  /* Mostrem per pantalla un missatge */
+    delay(1000); /* esperem 1s per a reiniciar el loop */
   }
 
-  /* delete a task when finish,
-  this will never happen because this is infinity loop */
-  vTaskDelete( NULL );
+  vTaskDelete( NULL ); /* parem la tasca. Es possible utilitzar un parametre declarat en la setup per tal de manipular l'apagada */
 }
